@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 350px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    padding: 16px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.header h1 {
+    font-size: 20px;
+    color: #1a73e8;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #666;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a73e8;
+}
+
+.settings {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.settings h2 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.setting-item {
+    margin-bottom: 8px;
+}
+
+.setting-item label {
+    display: block;
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.interval-control {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#intervalInput {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+#intervalInput:focus {
+    border-color: #1a73e8;
+}
+
+.controls {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.btn-save {
+    background: #1a73e8;
+    color: white;
+    white-space: nowrap;
+}
+
+.btn-save:hover {
+    background: #1557b0;
+}
+
+.btn-clear {
+    background: #f44336;
+    color: white;
+}
+
+.btn-clear:hover {
+    background: #d32f2f;
+}
+
+.history {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.history h2 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.history-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 8px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 12px;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-icon {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.history-time {
+    color: #333;
+    flex: 1;
+}
+
+.history-type {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.type-confirm {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.type-success {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.empty-message {
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    padding: 20px;
+}
+
+.saved-message {
+    color: #2e7d32;
+    font-size: 11px;
+    margin-top: 4px;
+    display: none;
+}
+
+.saved-message.show {
+    display: block;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #1a73e8;
+}
+
+.body-params {
+    margin-top: 8px;
+    padding-left: 8px;
+    border-left: 2px solid #e0e0e0;
+}

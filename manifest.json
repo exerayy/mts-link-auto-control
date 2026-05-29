@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "MTS-Link Auto Control",
+  "version": "0.1",
+  "description": "Автоматически нажимает кнопку в окне контроля присутствия на my.mts-link.ru",
+  "author": "github.com/exerayy",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "MTS-Link Auto Control"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.mts-link.ru/*"],
+      "js": ["interceptor.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://*.mts-link.ru/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}

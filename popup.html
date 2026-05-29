@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTS-Link Auto Control</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>MTS-Link</h1>
+        <p class="subtitle">Auto Control</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-item">
+            <span class="stat-label">Подтверждений:</span>
+            <span id="confirmCount" class="stat-value">0</span>
+        </div>
+    </div>
+
+    <div class="settings">
+        <h2>Настройки</h2>
+        <div class="setting-item">
+            <label for="intervalInput">Интервал проверки (сек):</label>
+            <div class="interval-control">
+                <input type="number" id="intervalInput" min="1" max="3600" value="40">
+                <button id="saveIntervalBtn" class="btn btn-save">Сохранить</button>
+            </div>
+        </div>
+
+        <h2>Параметры присутствия</h2>
+        <div class="setting-item">
+            <label class="checkbox-label">
+                <input type="checkbox" id="modifyBodyToggle">
+                <span>Модифицировать параметры</span>
+            </label>
+        </div>
+        <div id="bodyParams" class="body-params" style="display: none;">
+            <label class="checkbox-label">
+                <input type="checkbox" id="isFocused" checked>
+                <span>isFocused (в фокусе)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="isSoundEnabled" checked>
+                <span>isSoundEnabled (звук)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="isVideoEnabled" checked>
+                <span>isVideoEnabled (видео)</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="clearBtn" class="btn btn-clear">Очистить историю</button>
+    </div>
+
+    <div class="history">
+        <h2>История:</h2>
+        <div id="historyList" class="history-list">
+            <p class="empty-message">Нет записей</p>
+        </div>
+    </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
