@@ -11,6 +11,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const isVideoEnabled = document.getElementById('isVideoEnabled');
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+    const eventNameElement = document.getElementById('eventName');
+
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        if (request.action === 'updateStatus') {
+            updateStatusDisplay(request);
+        }
+    });
+
+    // Функция обновления отображения статуса
+    function updateStatusDisplay(data) {
+        const indicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+
+        if (data.isActive) {
+            indicator.className = 'status-indicator active';
+            statusText.textContent = `Активен (каждые ${data.interval} сек.)`;
+        } else {
+            indicator.className = 'status-indicator inactive';
+            statusText.textContent = 'Неактивен';
+        }
+
+        if (eventNameElement && data.eventName) {
+            eventNameElement.textContent = data.eventName;
+            eventNameElement.title = data.eventName;
+        }
+    }
 
     const updateStatus = () => {
         const indicator = document.getElementById('statusIndicator');
@@ -159,4 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadHistory();
     setInterval(loadHistory, 2000);
+
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0] && tabs[0].url.includes('mts-link.ru')) {
+            chrome.tabs.sendMessage(tabs[0].id, { action: 'getStatus' });
+        } else {
+            updateStatusDisplay({ isActive: false, eventName: 'Нет подключения', interval: 0 });
+        }
+    });
 });

@@ -143,9 +143,33 @@
             });
             return true;
         }
+
+        if (request.action === 'getStatus') {
+            updateStatusInfo();
+            sendResponse({ success: true });
+        }
     });
 
     sendSettingsToInterceptor();
+
+    // Мониторинг статуса и названия встречи
+    const updateStatusInfo = () => {
+        const eventTitle = document.querySelector('[data-testid="EventNameTitle"]');
+        const eventName = eventTitle ? eventTitle.textContent.trim() : 'Не найдено';
+
+        const isActive = intervalId !== undefined && intervalId !== null;
+
+        chrome.runtime.sendMessage({
+            action: 'updateStatus',
+            isActive: isActive,
+            eventName: eventName,
+            interval: checkInterval / 1000
+        }).catch(() => {
+        });
+    };
+
+    updateStatusInfo();
+    setInterval(updateStatusInfo, 2000);
 
     console.log(`[${getTime()}] MTS-Link Auto Control запущен`);
 })();

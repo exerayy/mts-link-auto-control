@@ -53,15 +53,20 @@ body {
     background: white;
     border-radius: 12px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
 }
 
 .status-indicator {
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-indicator.active {
     background: #28a745;
     box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.15);
     animation: pulse 2s infinite;
@@ -73,6 +78,23 @@ body {
     animation: none;
 }
 
+.status-indicator.loading {
+    background: #ffc107;
+    box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.15);
+    animation: pulse 1.5s infinite;
+}
+
+.event-name {
+    display: block;
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.3); }
     70% { box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); }
@@ -81,6 +103,7 @@ body {
 
 .status-info {
     flex: 1;
+    min-width: 0;
 }
 
 .status-label {
@@ -89,12 +112,15 @@ body {
     color: #6c757d;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 2px;
 }
 
 .status-value {
-    font-size: 14px;
+    display: block;
+    font-size: 13px;
     font-weight: 600;
     color: #1a1a2e;
+    margin-bottom: 1px;
 }
 
 .stats-badge {
