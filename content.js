@@ -78,10 +78,35 @@
         }
     };
 
-    let checkInterval = 40000;
+    // Отправка настроек в MAIN world (для interceptor.js)
+    const sendSettingsToInterceptor = () => {
+        chrome.storage.local.get({
+            modifyBody: true,
+            isFocused: true,
+            isSoundEnabled: true,
+            isVideoEnabled: false
+        }, (data) => {
+            window.postMessage({
+                type: 'MTS_LINK_SETTINGS',
+                modifyBody: data.modifyBody,
+                isFocused: data.isFocused,
+                isSoundEnabled: data.isSoundEnabled,
+                isVideoEnabled: data.isVideoEnabled
+            }, '*');
+
+            console.log(`[${getTime()}] Настройки отправлены в interceptor:`, {
+                modifyBody: data.modifyBody,
+                isFocused: data.isFocused,
+                isSoundEnabled: data.isSoundEnabled,
+                isVideoEnabled: data.isVideoEnabled
+            });
+        });
+    };
+
+    let checkInterval = 30000;
     let intervalId;
 
-    chrome.storage.local.get({ interval: 40 }, (data) => {
+    chrome.storage.local.get({ interval: 30 }, (data) => {
         checkInterval = data.interval * 1000;
         startInterval();
     });
@@ -94,13 +119,33 @@
         console.log(`[${getTime()}] Интервал проверки: ${checkInterval / 1000} сек`);
     };
 
+    // Обработчик сообщений от popup
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === 'updateInterval') {
             checkInterval = request.interval * 1000;
             startInterval();
             console.log(`[${getTime()}] Интервал обновлен: ${request.interval} сек`);
+            sendResponse({ success: true });
+        }
+
+        if (request.action === 'updateBodySettings') {
+            // Сохраняем настройки в storage
+            chrome.storage.local.set({
+                modifyBody: request.modifyBody,
+                isFocused: request.isFocused,
+                isSoundEnabled: request.isSoundEnabled,
+                isVideoEnabled: request.isVideoEnabled
+            }, () => {
+                // Отправляем настройки в MAIN world
+                sendSettingsToInterceptor();
+                console.log(`[${getTime()}] Настройки body обновлены:`, request);
+                sendResponse({ success: true });
+            });
+            return true;
         }
     });
+
+    sendSettingsToInterceptor();
 
     console.log(`[${getTime()}] MTS-Link Auto Control запущен`);
 })();

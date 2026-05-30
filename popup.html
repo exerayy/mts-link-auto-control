@@ -9,59 +9,90 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>MTS-Link</h1>
-        <p class="subtitle">Auto Control</p>
-    </div>
-
-    <div class="stats">
-        <div class="stat-item">
-            <span class="stat-label">Подтверждений:</span>
-            <span id="confirmCount" class="stat-value">0</span>
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="#1a73e8" stroke-width="2" fill="#e8f0fe"/>
+                <path d="M8 12l3 3 5-5" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="header-text">
+            <h1>MTS-Link</h1>
+            <p class="subtitle">Auto Control</p>
         </div>
     </div>
 
-    <div class="settings">
-        <h2>Настройки</h2>
-        <div class="setting-item">
-            <label for="intervalInput">Интервал проверки (сек):</label>
+    <div class="status-card">
+        <div class="status-indicator" id="statusIndicator"></div>
+        <div class="status-info">
+            <span class="status-label">Статус</span>
+            <span class="status-value" id="statusText">Активен</span>
+        </div>
+        <div class="stats-badge" id="confirmBadge">0</div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="settings">⚙️ Настройки</button>
+        <button class="tab-btn" data-tab="history">📋 История</button>
+    </div>
+
+    <div class="tab-content active" id="settingsTab">
+        <div class="setting-group">
+            <div class="setting-header">
+                <span class="setting-icon">⏱️</span>
+                <h3>Интервал проверки</h3>
+            </div>
             <div class="interval-control">
                 <input type="number" id="intervalInput" min="1" max="3600" value="40">
-                <button id="saveIntervalBtn" class="btn btn-save">Сохранить</button>
+                <span class="unit">секунд</span>
+                <button id="saveIntervalBtn" class="btn btn-primary">Применить</button>
             </div>
         </div>
 
-        <h2>Параметры присутствия</h2>
-        <div class="setting-item">
-            <label class="checkbox-label">
-                <input type="checkbox" id="modifyBodyToggle">
-                <span>Модифицировать параметры</span>
-            </label>
-        </div>
-        <div id="bodyParams" class="body-params" style="display: none;">
-            <label class="checkbox-label">
-                <input type="checkbox" id="isFocused" checked>
-                <span>isFocused (в фокусе)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="isSoundEnabled" checked>
-                <span>isSoundEnabled (звук)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="isVideoEnabled" checked>
-                <span>isVideoEnabled (видео)</span>
-            </label>
+        <div class="setting-group">
+            <div class="setting-header">
+                <span class="setting-icon">🎯</span>
+                <h3>Параметры присутствия</h3>
+            </div>
+            <div class="toggle-row">
+                <label class="switch">
+                    <input type="checkbox" id="modifyBodyToggle">
+                    <span class="slider"></span>
+                </label>
+                <span class="toggle-label">Модифицировать параметры</span>
+            </div>
+            <div id="bodyParams" class="params-list" style="display: none;">
+                <label class="param-item">
+                    <input type="checkbox" id="isFocused" checked>
+                    <span class="param-name">Фокус окна</span>
+                    <span class="param-badge">isFocused</span>
+                </label>
+                <label class="param-item">
+                    <input type="checkbox" id="isSoundEnabled" checked>
+                    <span class="param-name">Звук</span>
+                    <span class="param-badge">isSoundEnabled</span>
+                </label>
+                <label class="param-item">
+                    <input type="checkbox" id="isVideoEnabled" checked>
+                    <span class="param-name">Видео</span>
+                    <span class="param-badge">isVideoEnabled</span>
+                </label>
+            </div>
         </div>
     </div>
 
-    <div class="controls">
-        <button id="clearBtn" class="btn btn-clear">Очистить историю</button>
-    </div>
-
-    <div class="history">
-        <h2>История:</h2>
+    <div class="tab-content" id="historyTab" style="display: none;">
+        <div class="history-header">
+            <span>Последние действия</span>
+            <button id="clearBtn" class="btn btn-clear">Очистить</button>
+        </div>
         <div id="historyList" class="history-list">
             <p class="empty-message">Нет записей</p>
         </div>
+    </div>
+
+    <div class="footer">
+        <span>v1.0</span>
+        <span>github.com/exerayy</span>
     </div>
 </div>
 <script src="popup.js"></script>

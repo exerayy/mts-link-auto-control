@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const historyList = document.getElementById('historyList');
-    const confirmCount = document.getElementById('confirmCount');
+    const confirmBadge = document.getElementById('confirmBadge'); // Изменено с confirmCount
     const clearBtn = document.getElementById('clearBtn');
     const intervalInput = document.getElementById('intervalInput');
     const saveIntervalBtn = document.getElementById('saveIntervalBtn');
@@ -9,10 +9,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const isFocused = document.getElementById('isFocused');
     const isSoundEnabled = document.getElementById('isSoundEnabled');
     const isVideoEnabled = document.getElementById('isVideoEnabled');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-    // Загружаем сохраненные настройки
+    const updateStatus = () => {
+        const indicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+
+        if (modifyBodyToggle.checked) {
+            indicator.classList.remove('inactive');
+            statusText.textContent = 'Модификация активна';
+        } else {
+            indicator.classList.add('inactive');
+            statusText.textContent = 'Стандартный режим';
+        }
+    };
+
+    // Табы
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                content.style.display = 'none';
+            });
+
+            const targetTab = document.getElementById(tab + 'Tab');
+            targetTab.classList.add('active');
+            targetTab.style.display = 'block';
+        });
+    });
+
     chrome.storage.local.get({
-        interval: 40,
+        interval: 30,
         modifyBody: false,
         isFocused: true,
         isSoundEnabled: true,
@@ -24,11 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
         isSoundEnabled.checked = data.isSoundEnabled;
         isVideoEnabled.checked = data.isVideoEnabled;
         bodyParams.style.display = data.modifyBody ? 'block' : 'none';
+        updateStatus();
     });
 
     // Переключение видимости параметров
     modifyBodyToggle.addEventListener('change', () => {
         bodyParams.style.display = modifyBodyToggle.checked ? 'block' : 'none';
+        updateStatus();
         saveBodySettings();
     });
 
@@ -90,7 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.storage.local.get({ confirmations: [] }, (data) => {
             const confirmations = data.confirmations;
             const confirms = confirmations.filter(c => c.type === 'confirm').length;
-            confirmCount.textContent = confirms;
+
+            // Обновляем счетчик в бейдже
+            if (confirmBadge) {
+                confirmBadge.textContent = confirms;
+            }
 
             if (confirmations.length === 0) {
                 historyList.innerHTML = '<p class="empty-message">Нет записей</p>';

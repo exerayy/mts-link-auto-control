@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MTS-Link Auto Control",
-  "version": "0.1",
+  "version": "1.0",
   "description": "Автоматически нажимает кнопку в окне контроля присутствия на my.mts-link.ru",
   "author": "github.com/exerayy",
   "icons": {
