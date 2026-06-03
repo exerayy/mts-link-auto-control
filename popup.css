@@ -144,6 +144,10 @@ body {
 }
 
 .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
     flex: 1;
     padding: 8px;
     border: none;
@@ -192,7 +196,10 @@ body {
 }
 
 .setting-icon {
-    font-size: 18px;
+    display: flex;
+    align-items: center;
+    width: 18px;
+    height: 18px;
 }
 
 .setting-header h3 {
