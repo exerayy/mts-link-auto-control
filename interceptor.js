@@ -1,11 +1,16 @@
 (function() {
     'use strict';
 
-    let modifyBody = true;
+    const MODIFY_BODY = true;
+    const IS_FOCUSED = true;
+    const IS_SOUND_ENABLED = true;
+    const IS_VIDEO_ENABLED = false;
+
+    let modifyBody = MODIFY_BODY;
     let settings = {
-        isFocused: true,
-        isSoundEnabled: true,
-        isVideoEnabled: false
+        isFocused: IS_FOCUSED,
+        isSoundEnabled: IS_SOUND_ENABLED,
+        isVideoEnabled: IS_VIDEO_ENABLED
     };
 
     window.addEventListener('message', (event) => {

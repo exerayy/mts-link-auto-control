@@ -1,6 +1,9 @@
 (function() {
     'use strict';
 
+    const MS_IN_SECOND = 1000;
+    const DEFAULT_INTERVAL_SEC = 30;
+
     const getTime = () => {
         const now = new Date();
         return now.toLocaleTimeString('ru-RU', { hour12: false });
@@ -103,11 +106,11 @@
         });
     };
 
-    let checkInterval = 30000;
+    let checkInterval = DEFAULT_INTERVAL_SEC * MS_IN_SECOND;
     let intervalId;
 
-    chrome.storage.local.get({ interval: 30 }, (data) => {
-        checkInterval = data.interval * 1000;
+    chrome.storage.local.get({ interval: DEFAULT_INTERVAL_SEC }, (data) => {
+        checkInterval = data.interval * MS_IN_SECOND;
         startInterval();
     });
 
@@ -116,13 +119,13 @@
             clearInterval(intervalId);
         }
         intervalId = setInterval(checkAndHandle, checkInterval);
-        console.log(`[${getTime()}] Интервал проверки: ${checkInterval / 1000} сек`);
+        console.log(`[${getTime()}] Интервал проверки: ${checkInterval / MS_IN_SECOND} сек`);
     };
 
     // Обработчик сообщений от popup
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === 'updateInterval') {
-            checkInterval = request.interval * 1000;
+            checkInterval = request.interval * MS_IN_SECOND;
             startInterval();
             console.log(`[${getTime()}] Интервал обновлен: ${request.interval} сек`);
             sendResponse({ success: true });
@@ -154,8 +157,7 @@
 
     // Мониторинг статуса и названия встречи
     const updateStatusInfo = () => {
-        const eventTitle = document.querySelector('[data-testid="EventNameTitle"]');
-        const eventName = eventTitle ? eventTitle.textContent.trim() : 'Не найдено';
+        const eventName = document.title || 'Не найдено';
 
         const isActive = intervalId !== undefined && intervalId !== null;
 
@@ -163,13 +165,13 @@
             action: 'updateStatus',
             isActive: isActive,
             eventName: eventName,
-            interval: checkInterval / 1000
+            interval: checkInterval / MS_IN_SECOND
         }).catch(() => {
         });
     };
 
     updateStatusInfo();
-    setInterval(updateStatusInfo, 2000);
+    setInterval(updateStatusInfo, 2 * MS_IN_SECOND);
 
     console.log(`[${getTime()}] MTS-Link Auto Control запущен`);
 })();
