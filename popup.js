@@ -12,6 +12,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     const eventNameElement = document.getElementById('eventName');
+    const themeToggle = document.getElementById('themeToggle');
+
+    chrome.storage.local.get({ darkTheme: false }, (data) => {
+        if (data.darkTheme) {
+            document.body.classList.add('dark-theme');
+            themeToggle.checked = true;
+        }
+    });
+
+    themeToggle.addEventListener('change', () => {
+        const isDark = themeToggle.checked;
+        document.body.classList.toggle('dark-theme', isDark);
+        chrome.storage.local.set({ darkTheme: isDark });
+    });
 
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === 'updateStatus') {
