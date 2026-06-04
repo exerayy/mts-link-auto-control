@@ -3,6 +3,8 @@
 
     const MS_IN_SECOND = 1000;
     const DEFAULT_INTERVAL_SEC = 30;
+    const MIN_SLEEP_BEFORE_CLOSE_MS = 1000;
+    const MAX_SLEEP_BEFORE_CLOSE_MS = 3000;
 
     const getTime = () => {
         const now = new Date();
@@ -50,7 +52,26 @@
         });
     };
 
-    const checkAndHandle = () => {
+    const randomSleep = (minMs, maxMs) => {
+        const delay = Math.random() * (maxMs - minMs) + minMs;
+        return new Promise(resolve => setTimeout(resolve, delay));
+    };
+
+    const checkAndHandle = async () => {
+        const confirmButton = document.querySelector(
+            '[data-testid="AttentionControlModal.action.submit.Button"]'
+        );
+        console.log(`[${getTime()}] Поиск кнопки подтверждения:`, confirmButton);
+
+        if (!confirmButton) {
+            return;
+        }
+        confirmButton.click();
+        saveConfirmation();
+        console.log(`[${getTime()}] ✅ Присутствие подтверждено`);
+
+        await randomSleep(MIN_SLEEP_BEFORE_CLOSE_MS, MAX_SLEEP_BEFORE_CLOSE_MS);
+
         const successModal = document.querySelector(
             '[data-testid="AttentionControlSuccessModal"]'
         );
@@ -65,19 +86,7 @@
                 closeButton.click();
                 saveSuccessClose();
                 console.log(`[${getTime()}] ✅ Окно успеха закрыто`);
-                return;
             }
-        }
-
-        const confirmButton = document.querySelector(
-            '[data-testid="AttentionControlModal.action.submit.Button"]'
-        );
-        console.log(`[${getTime()}] Поиск кнопки подтверждения:`, confirmButton);
-
-        if (confirmButton) {
-            confirmButton.click();
-            saveConfirmation();
-            console.log(`[${getTime()}] ✅ Присутствие подтверждено`);
         }
     };
 
