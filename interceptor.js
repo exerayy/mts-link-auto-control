@@ -36,6 +36,24 @@
             const newInit = { ...init, body: newBody };
 
             console.log('[Interceptor] Новый body:', newInit.body);
+
+            window.postMessage({
+                type: 'MTS_LINK_INVOLVEMENT_CHANGED',
+                time: new Date().toLocaleString('ru-RU', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                }),
+                settings: {
+                    isFocused: settings.isFocused,
+                    isSoundEnabled: settings.isSoundEnabled,
+                    isVideoEnabled: settings.isVideoEnabled
+                }
+            }, '*');
             return origFetch.call(this, input, newInit);
         }
 

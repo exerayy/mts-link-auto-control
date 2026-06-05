@@ -176,16 +176,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const reversed = [...confirmations].reverse();
-            historyList.innerHTML = reversed.map(item => `
-                <div class="history-item">
-                    <span class="history-icon">${item.type === 'confirm' ? '✅' : '🔵'}</span>
-                    <span class="history-time">${item.time}</span>
-                    <span class="history-type ${item.type === 'confirm' ? 'type-confirm' : 'type-success'}">
-                        ${item.type === 'confirm' ? 'Подтверждение' : 'Закрытие'}
-                    </span>
-                </div>
-            `).join('');
+            const filterConfirm = document.getElementById('filterConfirm');
+            const filterInvolvement = document.getElementById('filterInvolvement');
+
+            const filtered = confirmations.filter(item => {
+                if (item.type === 'confirm' && !filterConfirm.checked) return false;
+                if (item.type === 'involvement' && !filterInvolvement.checked) return false;
+                return true;
+            });
+
+            const reversed = [...filtered].reverse();
+            historyList.innerHTML = reversed.map(item => {
+                let icon, typeClass, typeText;
+
+                switch(item.type) {
+                    case 'confirm':
+                        icon = '✅';
+                        typeClass = 'type-confirm';
+                        typeText = 'Проверка';
+                        break;
+                    case 'involvement':
+                        icon = '📡';
+                        typeClass = 'type-involvement';
+                        typeText = 'Статус присутствия';
+                        break;
+                    case 'success':
+                        icon = '🔵';
+                        typeClass = 'type-success';
+                        typeText = 'Закрытие';
+                        break;
+                    default:
+                        icon = '❓';
+                        typeClass = 'type-unknown';
+                        typeText = 'Unknown';
+                }
+
+                return `
+                    <div class="history-item">
+                        <span class="history-icon">${icon}</span>
+                        <span class="history-time">${item.time}</span>
+                        <span class="history-type ${typeClass}">${typeText}</span>
+                    </div>
+                `;
+            }).join('');
         });
     };
 
@@ -198,6 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     loadHistory();
+    document.getElementById('filterConfirm').addEventListener('change', loadHistory);
+    document.getElementById('filterInvolvement').addEventListener('change', loadHistory);
     setInterval(loadHistory, 2000);
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

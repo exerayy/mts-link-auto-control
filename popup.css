@@ -371,12 +371,13 @@ input:checked + .slider:before {
 }
 
 /* History */
-.history-header {
+.history-header,
+.filter-label {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
-    font-size: 13px;
+    font-size: 12px;
     color: #6c757d;
 }
 
@@ -442,6 +443,16 @@ input:checked + .slider:before {
     color: #0c5460;
 }
 
+.type-involvement {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.type-unknown {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
 .empty-message {
     text-align: center;
     color: #adb5bd;
@@ -449,6 +460,37 @@ input:checked + .slider:before {
     padding: 30px 20px;
     background: white;
     border-radius: 8px;
+}
+
+.history-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.filter-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--checkbox);
+}
+
+.filter-badge {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
 }
 
 /* Footer */
@@ -607,7 +649,8 @@ body.dark-theme .empty-message {
 body.dark-theme .status-label,
 body.dark-theme .event-name,
 body.dark-theme .unit,
-body.dark-theme .history-header {
+body.dark-theme .history-header,
+body.dark-theme .filter-label {
     color: #ffffff;
 }
 
@@ -672,6 +715,22 @@ body.dark-theme .type-success {
     background: rgba(23, 162, 184, 0.2);
     color: #17a2b8;
 }
+
+body.dark-theme .type-involvement {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+body.dark-theme .type-unknown {
+    background: rgba(108, 117, 125, 0.2);
+    color: #adb5bd;
+}
+
+body.dark-theme .filter-item input[type="checkbox"] {
+    accent-color: var(--dark-theme-checkbox);
+}
+
+
 
 body.dark-theme .history-list::-webkit-scrollbar-thumb {
     background: #555555;

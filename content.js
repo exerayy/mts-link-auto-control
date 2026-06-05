@@ -164,6 +164,23 @@
 
     sendSettingsToInterceptor();
 
+    window.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'MTS_LINK_INVOLVEMENT_CHANGED') {
+            chrome.storage.local.get({ confirmations: [] }, (data) => {
+                const confirmations = data.confirmations;
+                confirmations.push({
+                    time: event.data.time,
+                    type: 'involvement',
+                    details: event.data.settings
+                });
+                if (confirmations.length > 100) {
+                    confirmations.shift();
+                }
+                chrome.storage.local.set({ confirmations });
+            });
+        }
+    });
+
     // Мониторинг статуса и названия встречи
     const updateStatusInfo = () => {
         const eventName = document.title || 'Не найдено';
